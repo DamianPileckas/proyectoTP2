@@ -1,0 +1,33 @@
+{
+  "type": "module",
+  "name": "ProyectoTP2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r dotenv/config src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smultidesign/ProyectoTP2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^15.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "nodemon": "^2.0.3",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
+  },
+  "bugs": {
+    "url": "https://github.com/smultidesign/ProyectoTP2/issues"
+  },
+  "homepage": "https://github.com/smultidesign/ProyectoTP2#readme"
+}
