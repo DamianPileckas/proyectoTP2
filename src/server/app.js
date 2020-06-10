@@ -1,4 +1,5 @@
 import express from 'express'
+import { getUsuariosRouter } from './routers/usuariosRouter.js'
 
 class App {
 
@@ -6,6 +7,7 @@ class App {
         const app = express()
         app.use(express.json())
         app.set('json spaces', 4)
+        app.use('/api/usuarios', getUsuariosRouter())
         this.app = app
     }
 

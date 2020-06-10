@@ -3,26 +3,29 @@ const currentEnv = process.env.ENV || 'dev'
 const envs = {
     prod: {
         port: process.env.PROD_PORT,
-        mode: process.env.PROD_MODE,
         db: {
             client: process.env.PROD_DB_CLIENT,
+            host: process.env.PROD_DB_HOST,
             name: process.env.PROD_DB_NAME,
-            cnxStr: process.env.PROD_DB_CNX_STR
+            user: process.env.PROD_DB_USER,
+            pass: process.env.PROD_DB_PASS
         }
     },
     dev: {
         port: process.env.DEV_PORT,
-        mode: process.env.DEV_MODE,
         db: {
             client: process.env.DEV_DB_CLIENT,
-            dbPath: process.env.DEV_DB_PATH
+            host: process.env.DEV_DB_HOST,
+            name: process.env.DEV_DB_NAME,
+            user: process.env.DEV_DB_USER,
+            pass: process.env.DEV_DB_PASS
         }
     }
 }
 
 const config = {
     port: envs[currentEnv].port,
-    mode: envs[currentEnv].mode,
+    mode: process.env.MODO || 'db',
     db: envs[currentEnv].db,
     debugLevel: process.env.DEBUG_LEVEL || 5
 }
