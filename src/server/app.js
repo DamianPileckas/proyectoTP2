@@ -11,13 +11,6 @@ class App {
 
         app.set('json spaces', 4);
         app.use('/api/usuarios', getUsuariosRouter());
-        app.use(mysql.createConnection({
-            host: '127.3.3.1',
-            user: 'root',
-            password: '',
-            port: 3306,
-            database: 'gestionpermisos'
-        }));
         this.app = app;
 
     }
@@ -38,4 +31,4 @@ class App {
     }
 }
 
-export { App };
+export default App;

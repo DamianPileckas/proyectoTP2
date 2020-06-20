@@ -6,14 +6,28 @@ import DbClientFactory from '../db/DbClientFactory.js'
 
 class UsuariosDaoDb extends UsuariosDao {
 
-    constructor(){
+
+    constructor() {
         super()
+        const mysql = require('mysql');
+        const connection = mysql.createConnection({
+            host: '127.3.3.1',
+            user: 'root',
+            password: '',
+            port: 3306,
+            database: 'gestionpermisos'
+        });
+
+        connection.connect();
+
+
+
         this.client = DbClientFactory.getDbClient()
     }
 
     async getAll() {
         try {
-            const usuarios = await this.client.query("SELECT * FROM usuarios ORDER BY id DESC")
+            const usuarios = await this.connection.query("SELECT * FROM usuarios ORDER BY id DESC")
             return usuarios
         } catch (err) {
             console.log(err)
@@ -74,7 +88,7 @@ class UsuariosDaoDb extends UsuariosDao {
         } catch (error) {
             throw new CustomError(500, `error al reemplazar al usuario`, error)
         }
-        
+
         if (result.affectedRows != 1) {
             throw new CustomError(404, `no se encontró para actualizar un usuario con id: ${idParaReemplazar}`, { idParaReemplazar })
         }

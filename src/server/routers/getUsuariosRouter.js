@@ -53,3 +53,4 @@ function getUsuariosRouter() {
 
     return router;
 }
+export default getUsuariosRouter;
