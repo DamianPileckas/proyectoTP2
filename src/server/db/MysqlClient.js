@@ -57,9 +57,9 @@ class MysqlClient extends DbClient {
         return this.knex;
     }
 
-    async getKnex() {
+    async getKnex(table) {
 
-        return this.knex;
+        return this.knex(table);
     }
 }
 

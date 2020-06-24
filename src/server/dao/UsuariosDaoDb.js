@@ -17,7 +17,7 @@ class UsuariosDaoDb extends UsuariosDao {
         try {
             //let sql = "'SELECT nombre from usuario'";
             //const usuarios = await this.client.query(sql);
-            const usuarios = await this.client.getKnex().select('*').from('gestionpermisos.usuario').limit(2).offset(1);
+            const usuarios = await this.client.getKnex("usuario");
             return usuarios;
         } catch (err) {
             console.error(err);
@@ -29,15 +29,22 @@ class UsuariosDaoDb extends UsuariosDao {
     async add(usuarioNuevo) {
         let result;
         try {
-            let sql = "INSERT INTO usuario(email, password, nombre, perfil, habilitado) VALUES (?,?,?,?,?)";
-            let valores = [usuarioNuevo.email, usuarioNuevo.password, usuarioNuevo.nombre, usuarioNuevo.perfil, usuarioNuevo.habilitado];
-            result = await this.client.query(sql, valores);
-            usuarioNuevo.id = result.insertId;
+            //let sql = "INSERT INTO usuario(email, password, nombre, perfil, habilitado) VALUES (?,?,?,?,?)";
+            //let valores = [usuarioNuevo.email, usuarioNuevo.password, usuarioNuevo.nombre, usuarioNuevo.perfil, usuarioNuevo.habilitado];
+            const usuario = await knex("usuario").insert({
+                email: usuarioNuevo.email,
+                password: usuarioNuevo.password,
+                nombre: usuarioNuevo.nombre,
+                perfil: usuarioNuevo.perfil,
+                habilitado: usuarioNuevo.habilitado
+            });
+            //result = await this.client.query(sql, valores);
+            //usuarioNuevo.id = usuario.insertId;
         } catch (error) {
             throw new CustomError(500, 'error al crear un nuevo usuario', error);
         }
 
-        return estuNuevo;
+        return usuario;
     }
 
     async deleteById(idParaBorrar) {
