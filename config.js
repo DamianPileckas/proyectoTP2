@@ -25,7 +25,7 @@ const envs = {
 
 const config = {
     port: envs[currentEnv].port,
-    mode: process.env.MODO || 'db',
+    mode: 'db',
     db: envs[currentEnv].db,
     debugLevel: process.env.DEBUG_LEVEL || 5
 }

@@ -1,45 +1,47 @@
-import Usuario from '../models/Usuario.js'
-import UsuariosDaoFactory from '../dao/UsuariosDaoFactory.js'
-import CustomError from '../errores/CustomError.js'
+import Usuario from '../models/Usuario.js';
+import UsuariosDaoFactory from '../dao/UsuariosDaoFactory.js';
+import CustomError from '../errores/CustomError.js';
 
 class UsuariosApi {
 
     constructor() {
-        this.usuariosDao = UsuariosDaoFactory.getDao() //Data Access Object
+        this.usuariosDao = UsuariosDaoFactory.getDao(); //Data Access Object
     }
 
     async agregar(usuParaAgregar) {
-        UsuariosApi.asegurarUsuarioValido(usuParaAgregar)
-        const usuAgregado = await this.usuariosDao.add(usuParaAgregar)
-        return usuAgregado
+        UsuariosApi.asegurarUsuarioValido(usuParaAgregar);
+        const usuAgregado = await this.usuariosDao.add(usuParaAgregar);
+        return usuAgregado;
     }
 
     async buscar(queryParams) {
-        let usuarios
+        let usuarios;
+        console.log("llego2");
+        usuarios = this.usuariosDao.getAll();
         if (queryParams.size == 0) {
-            usuarios = await this.usuariosDao.getAll()
+
         } else if (queryParams.has('email')) {
-            usuarios = await this.usuariosDao.getByEmail(queryParams.get('email'))
+            usuarios = await this.usuariosDao.getByEmail(queryParams.get('email'));
         } else {
-            throw new CustomError(400, 'parametros de consulta invalidos', queryParams)
+            throw new CustomError(400, 'parametros de consulta invalidos', queryParams);
         }
-        return usuarios
+        return usuarios;
     }
 
     async borrar(id) {
-        await this.usuariosDao.deleteById(id)
+        await this.usuariosDao.deleteById(id);
     }
 
     async reemplazar(id, usuParaReemplazar) {
-        UsuariosApi.asegurarUsuarioValido(usuParaReemplazar)
-        UsuariosApi.asegurarQueCoincidenLosIds(usuParaReemplazar.id, id)
-        const usuReemplazado = await this.usuariosDao.updateById(id, usuParaReemplazar)
-        return usuReemplazado
+        UsuariosApi.asegurarUsuarioValido(usuParaReemplazar);
+        UsuariosApi.asegurarQueCoincidenLosIds(usuParaReemplazar.id, id);
+        const usuReemplazado = await this.usuariosDao.updateById(id, usuParaReemplazar);
+        return usuReemplazado;
     }
 
     static asegurarQueCoincidenLosIds(id1, id2) {
         if (id1 != id2) {
-            throw new CustomError(400, 'no coinciden los ids enviados', { id1, id2 })
+            throw new CustomError(400, 'no coinciden los ids enviados', { id1, id2 });
         }
     }
 
@@ -48,9 +50,9 @@ class UsuariosApi {
             return true;
             //Usuario.validar(usuario)
         } catch (error) {
-            throw new CustomError(400, 'el usuario posee un formato json invalido o faltan datos', error)
+            throw new CustomError(400, 'el usuario posee un formato json invalido o faltan datos', error);
         }
     }
 }
 
-export default UsuariosApi
+export default UsuariosApi;

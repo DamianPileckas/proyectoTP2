@@ -7,8 +7,9 @@ function getUsuariosRouter() {
     const usuariosApi = new UsuariosApi();
 
     //LISTADO DE USUARIOS - ENDPOINT http://localhost:8080/api/usuarios?email=perez@perez.com&habilitado=SI
-    router.get('/', async(req, res) => {
+    router.get('/get', async(req, res) => {
         try {
+            console.log("llego");
             const queryParams = new Map(Object.entries(req.query));
             const usuarios = await usuariosApi.buscar(queryParams);
             res.json(usuarios);
@@ -18,7 +19,7 @@ function getUsuariosRouter() {
     });
 
     //AGREGAR USUARIOS - ENDPOINT http://localhost:8080/api/usuarios
-    router.post('/', async(req, res) => {
+    router.post('/save', async(req, res) => {
         const usuParaAgregar = req.body;
 
         try {

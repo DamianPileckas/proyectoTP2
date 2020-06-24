@@ -17,11 +17,14 @@
     "license": "ISC",
     "dependencies": {
         "@hapi/joi": "^15.0.2",
+        "core-util-is": "^1.0.2",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-myconnection": "^1.0.4",
+        "knex": "^0.21.1",
         "mysql": "^2.18.1",
-        "requirejs": "^2.3.6"
+        "requirejs": "^2.3.6",
+        "webpack-dev-server": "^3.11.0"
     },
     "devDependencies": {
         "eslint": "^5.16.0",

@@ -1,45 +1,66 @@
 /* eslint-disable no-console */
-import CustomError from '../errores/CustomError.js'
-import mysql from 'mysql'
-import DbClient from './DbClient.js'
-import config from '../../../config.js'
+import CustomError from '../errores/CustomError.js';
+import mysql from 'mysql';
+import DbClient from './DbClient.js';
+import config from '../../../config.js';
+import knexLib from 'knex';
 
 class MysqlClient extends DbClient {
+    /*
+            this.knex = {
+                client: 'mysql',
+                connection: {
+                    host: '127.3.3.1',
+                    user: 'root',
+                    password: '',
+                    port: 3306,
+                    database: 'gestionpermisos'
+                }*/
     constructor() {
-        super()
-        this.connected = false
-        this.client = mysql.createConnection({
-          host: config.db.host,
-          user: config.db.user,
-          password: config.db.pass,
-          database: config.db.name
-        })
+        super();
+        this.connected = true;
+        this.knex = new knexLib({
+            client: 'mysql',
+            connection: {
+                host: '127.3.3.1',
+                user: 'root',
+                password: '',
+                port: 3306,
+                database: 'gestionpermisos'
+            }
+        });
+
     }
 
     async connect() {
         try {
-            await this.client.connect()
+            await this.knex.connect();
         } catch (error) {
-            throw new CustomError(500, 'error al conectarse a mysql', error)
+            throw new CustomError(500, 'error al conectarse a mysql', error);
         }
     }
 
     async disconnect() {
         try {
-            await this.client.end()
-            this.connected = false
+            await this.knex.end();
+            this.connected = false;
         } catch (error) {
-            throw new CustomError(500, 'error al conectarse a mysql', error)
+            throw new CustomError(500, 'error al conectarse a mysql', error);
         }
     }
 
     async _getClient() {
         if (!this.connected) {
-            await this.connect()
-            this.connected = true
+            await this.connect();
+            this.connected = true;
         }
-        return this.client
+        return this.knex;
+    }
+
+    async getKnex() {
+
+        return this.knex;
     }
 }
 
-export default MysqlClient
+export default MysqlClient;

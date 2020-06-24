@@ -10,7 +10,7 @@ class App {
         app.use(express.json());
 
         app.set('json spaces', 4);
-        app.use('/api/usuarios', getUsuariosRouter());
+        app.use('/api', getUsuariosRouter());
         this.app = app;
 
     }
