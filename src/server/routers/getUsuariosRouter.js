@@ -20,13 +20,14 @@ function getUsuariosRouter() {
 
     //AGREGAR USUARIOS - ENDPOINT http://localhost:8080/api/usuarios
     router.post('/save', async(req, res) => {
-        const usuParaAgregar = req.body;
-
+        //const usuParaAgregar = req.body;
         try {
-            const usuAgregado = await usuariosApi.agregar(usuParaAgregar);
+            const queryParams = new Map(Object.entries(req.query));
+            const usuAgregado = await usuariosApi.agregar(queryParams);
             res.status(201).json(usuAgregado);
         } catch (err) {
             res.status(err.estado).json(err);
+            console.log(err);
         }
     });
 

@@ -26,25 +26,22 @@ class UsuariosDaoDb extends UsuariosDao {
     }
 
 
-    async add(usuarioNuevo) {
-        let result;
+    async add(queryParams) {
         try {
-            //let sql = "INSERT INTO usuario(email, password, nombre, perfil, habilitado) VALUES (?,?,?,?,?)";
-            //let valores = [usuarioNuevo.email, usuarioNuevo.password, usuarioNuevo.nombre, usuarioNuevo.perfil, usuarioNuevo.habilitado];
-            const usuario = await knex("usuario").insert({
-                email: usuarioNuevo.email,
-                password: usuarioNuevo.password,
-                nombre: usuarioNuevo.nombre,
-                perfil: usuarioNuevo.perfil,
-                habilitado: usuarioNuevo.habilitado
+            console.log("llegue agregar 2");
+            const result = await this.client.getKnex("usuario").insert({
+                nombre: 'pepe',
+                apellido: 'pepe',
+                habilitado: 1,
+                email: 'pepe@gmail.com',
+                password: '123456',
+                tipo_perfil: 1
             });
-            //result = await this.client.query(sql, valores);
-            //usuarioNuevo.id = usuario.insertId;
         } catch (error) {
+            console.log(error);
             throw new CustomError(500, 'error al crear un nuevo usuario', error);
         }
-
-        return usuario;
+        return result;
     }
 
     async deleteById(idParaBorrar) {

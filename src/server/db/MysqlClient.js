@@ -61,6 +61,11 @@ class MysqlClient extends DbClient {
 
         return this.knex(table);
     }
+
+    async getKnexObj() {
+
+        return this.knex();
+    }
 }
 
 export default MysqlClient;
