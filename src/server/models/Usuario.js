@@ -2,11 +2,12 @@ import Joi from '@hapi/joi'
 
 class Usuario {
 
-    constructor(id, email, password, nombre, perfil, habilitado) {
+    constructor(id, email, password, nombre, perfil, habilitado, apellido) {
         this.id = id
         this.email = email
         this.password = password
         this.nombre = nombre
+        this.apellido = apellido
         this.perfil = perfil
         this.habilitado = habilitado
     }
@@ -27,8 +28,8 @@ class Usuario {
             email: Joi.string().alphanum().min(1).required(),
             nombre: Joi.string().alphanum().min(1).required(),
             password: Joi.string().alphanum().min(1).required(),
-            perfil: Joi.string().validate(['A','O','M']).required(),
-            habilitado: Joi.string().validate(['SI','NO']).required()
+            perfil: Joi.string().validate(['A', 'O', 'M']).required(),
+            habilitado: Joi.string().validate(['SI', 'NO']).required()
         }
 
         const { error } = Joi.validate(usuario, usuarioSchema)

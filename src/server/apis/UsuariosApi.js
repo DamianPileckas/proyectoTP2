@@ -8,10 +8,10 @@ class UsuariosApi {
         this.usuariosDao = UsuariosDaoFactory.getDao(); //Data Access Object
     }
 
-    async agregar(queryParams) {
-        UsuariosApi.asegurarUsuarioValido(queryParams);
+    async agregar(usuario) {
+        UsuariosApi.asegurarUsuarioValido(usuario);
         console.log("llega agregar");
-        const usuAgregado = await this.usuariosDao.add(queryParams);
+        const usuAgregado = await this.usuariosDao.add(usuario);
         return usuAgregado;
     }
 

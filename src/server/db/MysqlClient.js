@@ -57,12 +57,12 @@ class MysqlClient extends DbClient {
         return this.knex;
     }
 
-    async getKnex(table) {
+    getKnex(table) {
 
         return this.knex(table);
     }
 
-    async getKnexObj() {
+    getKnexObj() {
 
         return this.knex();
     }
