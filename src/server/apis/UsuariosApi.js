@@ -30,7 +30,8 @@ class UsuariosApi {
     }
 
     async borrar(id) {
-        await this.usuariosDao.deleteById(id);
+        const usuario = await this.usuariosDao.deleteById(id);
+        return usuario;
     }
 
     async reemplazar(id, usuParaReemplazar) {

@@ -16,8 +16,6 @@ class UsuariosDaoDb extends UsuariosDao {
 
     async getAll() {
         try {
-            //let sql = "'SELECT nombre from usuario'";
-            //const usuarios = await this.client.query(sql);
             const usuarios = await this.client.getKnex("usuario");
             return usuarios;
         } catch (err) {
@@ -46,24 +44,23 @@ class UsuariosDaoDb extends UsuariosDao {
     }
 
     async deleteById(idParaBorrar) {
-        let result;
         try {
-            let sql = "UPDATE usuarios SET habilitado = 'NO' where id = ?";
-            result = await this.client.query(sql, idParaBorrar);
+            const result = await this.client.getKnex('usuario')
+                .where('id', '=', idParaBorrar)
+                .del();
+
+            if (result != 1) {
+                throw new CustomError(404, `no existe un usuario para borrar con id: ${idParaBorrar}`, { idParaBorrar });
+            } else {
+                return new CustomAcierto(200, `Se elimino correctamente el usuario`, { idParaBorrar });
+            }
         } catch (error) {
             throw new CustomError(500, `error al borrar al usuario`, error);
-        }
-
-        if (result.affectedRows == 0) {
-            throw new CustomError(404, `no existe un usuario para borrar con id: ${idParaBorrar}`, { idParaBorrar });
         }
     }
 
     async updateById(idParaReemplazar, nuevoUsu) {
-        let result;
         try {
-            //let sql = "UPDATE usuarios SET email = ?, password = ?, nombre = ?, perfil = ?, habilitado = ? where id = ?";
-            //let valores = [nuevoUsu.email, nuevoUsu.password, nuevoUsu.nombre, nuevoUsu.perfil, nuevoUsu.habilitado, nuevoUsu.id];
             const result = await this.client.getKnex('usuario')
                 .where('id', '=', nuevoUsu.id)
                 .update({

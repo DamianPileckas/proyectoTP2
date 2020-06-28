@@ -34,8 +34,8 @@ function getUsuariosRouter() {
     //ELIMINAR USUARIOS - ENDPOINT http://localhost:8080/api/usuarios
     router.delete('/:id', async(req, res) => {
         try {
-            await usuariosApi.borrar(req.params.id);
-            res.status(204).send();
+            const resultado = await usuariosApi.borrar(req.params.id);
+            res.status(204).json(resultado);
         } catch (err) {
             res.status(err.estado).json(err);
         }
@@ -52,7 +52,6 @@ function getUsuariosRouter() {
             res.status(err.estado).json(err);
         }
     });
-
     return router;
 }
 export default getUsuariosRouter;
