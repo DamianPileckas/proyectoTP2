@@ -1,6 +1,7 @@
 import UsuariosDao from './UsuariosDao.js';
 import Usuario from '../models/Usuario.js';
 import CustomError from '../errores/CustomError.js';
+import CustomAcierto from '../errores/CustomAcierto.js';
 import DbClientFactory from '../db/DbClientFactory.js';
 import knexLib from 'knex';
 import MysqlClient from '../db/MysqlClient.js';
@@ -61,18 +62,26 @@ class UsuariosDaoDb extends UsuariosDao {
     async updateById(idParaReemplazar, nuevoUsu) {
         let result;
         try {
-            let sql = "UPDATE usuarios SET email = ?, password = ?, nombre = ?, perfil = ?, habilitado = ? where id = ?";
-            let valores = [nuevoUsu.email, nuevoUsu.password, nuevoUsu.nombre, nuevoUsu.perfil, nuevoUsu.habilitado, nuevoUsu.id];
-            result = await this.client.query(sql, valores);
+            //let sql = "UPDATE usuarios SET email = ?, password = ?, nombre = ?, perfil = ?, habilitado = ? where id = ?";
+            //let valores = [nuevoUsu.email, nuevoUsu.password, nuevoUsu.nombre, nuevoUsu.perfil, nuevoUsu.habilitado, nuevoUsu.id];
+            const result = await this.client.getKnex('usuario')
+                .where('id', '=', nuevoUsu.id)
+                .update({
+                    nombre: nuevoUsu.nombre,
+                    apellido: nuevoUsu.apellido,
+                    habilitado: nuevoUsu.habilitado,
+                    email: nuevoUsu.email,
+                    password: nuevoUsu.password,
+                    tipo_perfil: nuevoUsu.tipo_perfil
+                });
+            if (result != 1) {
+                throw new CustomError(404, `no se encontró para actualizar un usuario con id: ${idParaReemplazar}`, { idParaReemplazar });
+            } else {
+                return new CustomAcierto(200, `Se actualizo correctamente el id-- > ${ idParaReemplazar }`, { idParaReemplazar });
+            }
         } catch (error) {
             throw new CustomError(500, `error al reemplazar al usuario`, error);
         }
-
-        if (result.affectedRows != 1) {
-            throw new CustomError(404, `no se encontró para actualizar un usuario con id: ${idParaReemplazar}`, { idParaReemplazar });
-        }
-
-        return nuevoUsu;
     }
 }
 
