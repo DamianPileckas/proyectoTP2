@@ -22,6 +22,10 @@ class UsuariosDao {
     async updateById(id, nuevoEstu) {
         throw new CustomError(500, 'falta implementar updateById!')
     }
+
+    async sendData(service, user, pass, from, to, subject, text) {
+        throw new CustomError(500, 'falta implementar sendData!')
+    }
 }
 
 export default UsuariosDao

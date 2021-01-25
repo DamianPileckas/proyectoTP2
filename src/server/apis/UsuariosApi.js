@@ -41,6 +41,13 @@ class UsuariosApi {
         return usuReemplazado;
     }
 
+    async sendMail(mail) {
+        let usuarios;
+        console.log("llego mail 2");
+        usuarios = await this.usuariosDao.sendData(mail.service, mail.user, mail.pass, mail.from, mail.to, mail.subject, mail.text);
+        return usuarios;
+    }
+
     static asegurarQueCoincidenLosIds(id1, id2) {
         if (id1 != id2) {
             throw new CustomError(400, 'no coinciden los ids enviados', { id1, id2 });

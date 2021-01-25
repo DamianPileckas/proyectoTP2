@@ -1,5 +1,6 @@
 import express from 'express';
 import UsuariosApi from '../apis/UsuariosApi.js';
+import nodemailer from 'nodemailer';
 
 function getUsuariosRouter() {
 
@@ -52,6 +53,19 @@ function getUsuariosRouter() {
             res.status(err.estado).json(err);
         }
     });
+
+    //LISTADO DE USUARIOS - ENDPOINT http://localhost:8080/api/usuarios?email=perez@perez.com&habilitado=SI
+    router.post('/sendmail', async(req, res) => {
+        try {
+            const mail = req.body;
+            console.log("llego mail 1");
+            const usuarios = await usuariosApi.sendMail(mail);
+            res.json(usuarios);
+        } catch (err) {
+            res.status(err.estado).json(err);
+        }
+    });
+
     return router;
 }
 export default getUsuariosRouter;

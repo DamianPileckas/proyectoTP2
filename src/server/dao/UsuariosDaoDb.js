@@ -5,6 +5,8 @@ import CustomAcierto from '../errores/CustomAcierto.js';
 import DbClientFactory from '../db/DbClientFactory.js';
 import knexLib from 'knex';
 import MysqlClient from '../db/MysqlClient.js';
+import nodemailer from 'nodemailer';
+
 class UsuariosDaoDb extends UsuariosDao {
 
 
@@ -78,6 +80,31 @@ class UsuariosDaoDb extends UsuariosDao {
             }
         } catch (error) {
             throw new CustomError(500, `error al reemplazar al usuario`, error);
+        }
+    }
+
+    async sendData(service, user, pass, from, to, subject, text) {
+        try {
+            console.log(service, user, pass, from, to, subject, text);
+            const transporter = nodemailer.createTransport({
+                service: service,
+                auth: {
+                    user: user,
+                    pass: pass
+                }
+            });
+            let mailOptions = {
+                from: from,
+                to: to,
+                subject: subject,
+                text: text
+            };
+            transporter.sendMail(mailOptions)
+                .then((res) => new CustomAcierto(200, transporter, 'se envio correctamente'))
+                .catch(err => new CustomError(500, `error al enviar el mail`, new string(err)));
+            return transporter;
+        } catch (error) {
+            throw new CustomError(500, `error al enviar el mail`, new string(error));
         }
     }
 }
